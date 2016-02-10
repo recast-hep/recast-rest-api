@@ -1,0 +1,2 @@
+web: pip install -e . && recast-api-admin mk_config -o herokuconf.yaml && recast-api server --config herokucong.yaml
+worker: pip install -e . && recast-api-admin mk_config -o herokuconf.yaml && recast-api celery --config herokuconfig.yaml
