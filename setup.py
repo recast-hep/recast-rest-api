@@ -22,7 +22,7 @@ setup(
     entry_points = {
         'console_scripts': [
             'recast-api = recastrestapi.apicli:apicli',
-            'recast-api-admin = recstrestapip.admincli:admincli',
+            'recast-api-admin = recstrestapi.admincli:admincli',
             ]
         },
     dependency_links = [
