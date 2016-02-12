@@ -27,6 +27,7 @@ SETTINGS = {
     'JSON': JSON,
 }
 
+
 app = Eve(auth=None, settings=SETTINGS, validator=ValidatorSQL, data=SQL)
 
 Base = recastdb.database.db.Model
@@ -36,5 +37,3 @@ db = app.data.driver
 Base.metadata.bind = db.engine
 db.Model = Base()
 db.create_all()
-
-

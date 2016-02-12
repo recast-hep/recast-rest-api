@@ -26,12 +26,8 @@ DEBUG = True
 
 SQLALCHEMY_DATABASE_URI =  apiconf['DBPATH']
 
-XML = False
-JSON = True
-
-users = {
-    'item_title': 'us'
-}
+XML = True
+JSON = False
 
 DOMAIN = {
         'users': recastdb.models.User._eve_schema['users'],
@@ -51,15 +47,14 @@ DOMAIN = {
         'histograms': recastdb.models.Histogram._eve_schema['histograms'],
         }
 
-"""
 DOMAIN['users'].update({
-        'item_title': 'us',
+        'item_lookup_field': 'id',
         'additional_lookup': {
-            'url': '[0-9]+',
+            'url': 'regex("[0-9]+")',
             'field': 'id'
             },
         'cache_control': 'max-age=10,must-revalidate',
         'cache_expires': 10,
         'resource_methods': ['GET', 'POST', 'DELETE']
         })
-"""
+
