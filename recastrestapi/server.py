@@ -6,6 +6,8 @@ from eve.auth import TokenAuth
 from eve_sqlalchemy import SQL
 from eve_sqlalchemy.validation import ValidatorSQL
 from eve_sqlalchemy.decorators import registerSchema
+from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.orm.exc import MultipleResultsFound
 
 from recastrestapi.apiconfig import config as apiconf
 from settings import DOMAIN, SQLALCHEMY_DATABASE_URI, DEBUG, XML, JSON
@@ -16,9 +18,14 @@ class TokenAuth(TokenAuth):
         """ 
             Token based authentications 
         """
-        #accounts = app.data.driver.db['accounts']
-        return accounts.find_one({'token': token})
-
+        try:
+            recastdb.models.AccessToken.query.filter(recastdb.models.AccessToken.token == token).one()
+            return True
+        except MultipleResultsFound, e:
+            return False
+        except NoResultFound, e:
+            return False
+            
 SETTINGS = {
     'DOMAIN': DOMAIN,
     'SQLALCHEMY_DATABASE_URI': SQLALCHEMY_DATABASE_URI,
@@ -27,8 +34,7 @@ SETTINGS = {
     'JSON': JSON,
 }
 
-
-app = Eve(auth=None, settings=SETTINGS, validator=ValidatorSQL, data=SQL)
+app = Eve(auth=TokenAuth, settings=SETTINGS, validator=ValidatorSQL, data=SQL)
 
 Base = recastdb.database.db.Model
 
