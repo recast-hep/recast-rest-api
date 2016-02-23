@@ -39,9 +39,7 @@ class APITestCase(unittest.TestCase):
             headers=self.get_api_header())
         self.assertTrue(response.status_code == 404)
         json_response = json.loads(response.data.decode('utf-8'))
-        print json_response['_error']['code']
         self.assertEquals(json_response['_error']['code'],404)
-
 
     def test_token_auth(self):
         pass
