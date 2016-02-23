@@ -8,9 +8,11 @@ from eve_sqlalchemy.validation import ValidatorSQL
 from eve_sqlalchemy.decorators import registerSchema
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.orm.exc import MultipleResultsFound
+from eve_docs import eve_docs
+from flask.ext.bootstrap import Bootstrap
 
 from recastrestapi.apiconfig import config as apiconf
-from settings import DOMAIN, SQLALCHEMY_DATABASE_URI, DEBUG, XML, JSON
+from settings import DOMAIN, SQLALCHEMY_DATABASE_URI, DEBUG, XML, JSON, RESOURCE_METHODS, PUBLIC_ITEM_METHODS, HATEOAS, IF_MATCH, LAST_UPDATED, DATE_CREATED, ID_FIELD, ITEM_LOOKUP_FIELD
 
 
 class TokenAuth(TokenAuth):
@@ -32,10 +34,18 @@ SETTINGS = {
     'DEBUG': DEBUG,
     'XML': XML,
     'JSON': JSON,
+    'RESOURCE_METHODS': RESOURCE_METHODS,
+    'PUBLIC_ITEM_METHODS': PUBLIC_ITEM_METHODS,
+    'HATEOAS': HATEOAS,
+    'IF_MATCH': IF_MATCH,
+    'LAST_UPDATED': LAST_UPDATED,
+    'DATE_CREATED': DATE_CREATED,
+    'ID_FIELD': ID_FIELD,
+    'ITEM_LOOKUP_FIELD': ITEM_LOOKUP_FIELD,
 }
 
 app = Eve(auth=TokenAuth, settings=SETTINGS, validator=ValidatorSQL, data=SQL)
-
+app.register_blueprint(eve_docs, url_prefix='/docs')
 Base = recastdb.database.db.Model
 
 #bind SQLAlchemy
