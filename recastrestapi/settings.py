@@ -105,7 +105,6 @@ DOMAIN['run_conditions'].update({
         'cache_control': 'max-age=10,must-revalidate',
         'cache_expires': 10,
         'resource_methods': ['GET', 'POST', 'DELETE'],
-        'item_methods': ['GET', 'PUT', 'PATCH']
-        })
+        'item_methods': ['GET', 'PUT', 'PATCH'],
         'resource_methods': ['GET', 'POST', 'DELETE']
         })
