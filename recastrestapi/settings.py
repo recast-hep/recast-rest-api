@@ -2,6 +2,7 @@ import recastdb.models
 from recastdb.database import db
 
 from eve_sqlalchemy.decorators import registerSchema
+<<<<<<< HEAD
 from eve.utils import config
 from recastrestapi.apiconfig import config as apiconf
 
@@ -23,6 +24,11 @@ config.ITEM_LOOKUP_FIELD = ID_FIELD
 
 XML = True
 JSON = True
+=======
+
+from recastrestapi.apiconfig import config as apiconf
+
+>>>>>>> bb902417163c2424b5237a7ed69dba4cae249e6f
 
 registerSchema('users')(recastdb.models.User)
 registerSchema('analysis')(recastdb.models.Analysis)
@@ -39,8 +45,18 @@ registerSchema('responses')(recastdb.models.ScanResponse)
 registerSchema('point_responses')(recastdb.models.PointResponse)
 registerSchema('basic_responses')(recastdb.models.BasicResponse)
 registerSchema('histograms')(recastdb.models.Histogram)
+<<<<<<< HEAD
 registerSchema('access_tokens')(recastdb.models.AccessToken)
 
+=======
+
+DEBUG = True
+
+SQLALCHEMY_DATABASE_URI =  apiconf['DBPATH']
+
+XML = True
+JSON = False
+>>>>>>> bb902417163c2424b5237a7ed69dba4cae249e6f
 
 DOMAIN = {
         'users': recastdb.models.User._eve_schema['users'],
@@ -58,7 +74,10 @@ DOMAIN = {
         'point_responses': recastdb.models.PointResponse._eve_schema['point_responses'],
         'basic_responses': recastdb.models.BasicResponse._eve_schema['basic_responses'],
         'histograms': recastdb.models.Histogram._eve_schema['histograms'],
+<<<<<<< HEAD
         'access_tokens': recastdb.models.AccessToken._eve_schema['access_tokens'],
+=======
+>>>>>>> bb902417163c2424b5237a7ed69dba4cae249e6f
         }
 
 DOMAIN['users'].update({
@@ -69,6 +88,7 @@ DOMAIN['users'].update({
             },
         'cache_control': 'max-age=10,must-revalidate',
         'cache_expires': 10,
+<<<<<<< HEAD
         'resource_methods': ['GET', 'POST', 'DELETE'],
         'item_methods': ['GET', 'PUT', 'PATCH']
         })
@@ -96,3 +116,8 @@ DOMAIN['run_conditions'].update({
         'item_methods': ['GET', 'PUT', 'PATCH']
         })
       
+=======
+        'resource_methods': ['GET', 'POST', 'DELETE']
+        })
+
+>>>>>>> bb902417163c2424b5237a7ed69dba4cae249e6f

@@ -10,8 +10,12 @@ setup(
     include_package_data = True,
     install_requires = [
         'Flask',
+<<<<<<< HEAD
         'werkzeug==0.10.4',
         'Eve==0.5.3',
+=======
+        'Eve',
+>>>>>>> bb902417163c2424b5237a7ed69dba4cae249e6f
         'eve-sqlalchemy',
         'celery',
         'pyyaml',
