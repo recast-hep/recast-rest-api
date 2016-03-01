@@ -21,12 +21,14 @@ ID_FIELD = 'id'
 ITEM_LOOKUP_FIELD = ID_FIELD
 config.ID_FIELD = ID_FIELD
 config.ITEM_LOOKUP_FIELD = ID_FIELD
-
 XML = False
 JSON = True
 
 
 from recastrestapi.apiconfig import config as apiconf
+
+XML = True
+JSON = True
 
 registerSchema('users')(recastdb.models.User)
 registerSchema('analysis')(recastdb.models.Analysis)
@@ -44,15 +46,6 @@ registerSchema('point_responses')(recastdb.models.PointResponse)
 registerSchema('basic_responses')(recastdb.models.BasicResponse)
 registerSchema('histograms')(recastdb.models.Histogram)
 registerSchema('access_tokens')(recastdb.models.AccessToken)
-
-
-
-DEBUG = True
-
-SQLALCHEMY_DATABASE_URI =  apiconf['DBPATH']
-
-XML = True
-JSON = False
 
 DOMAIN = {
         'users': recastdb.models.User._eve_schema['users'],

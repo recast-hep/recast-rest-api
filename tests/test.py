@@ -5,6 +5,7 @@ from recastrestapi.server import db
 from recastdb.models import AccessToken, User
 import random
 import string
+
 from flask import url_for
 
 class APITestCase(unittest.TestCase):
@@ -59,6 +60,12 @@ class APITestCase(unittest.TestCase):
 
     def test_add_token(self):
         """Adding Random Token"""
+
+    def tearDown(self):
+        db.session.remove()
+        #self.app.app_context().pop()
+
+    def test_add_token(self):
         test_user = User(name="Rest API test user", email="testapi@email.com")
         db.session.add(test_user)
         db.session.commit()
@@ -80,6 +87,7 @@ class APITestCase(unittest.TestCase):
             headers=self.get_api_header())
         self.assertTrue(response.status_code == 404)
 
+
     def test_401(self):
          """Unauthorized access"""
          response = self.client.get(
@@ -97,6 +105,16 @@ class APITestCase(unittest.TestCase):
 
     def test_POST(self):
         """(Not implemented)"""
+        json_response = json.loads(response.data.decode('utf-8'))
+        self.assertEquals(json_response['_error']['code'],404)
+
+    def test_token_auth(self):
+        pass
+
+    def test_GET(self):
+        pass
+
+    def test_POST(self):
         pass
 
     def random_string(self, size=10, chars=string.ascii_uppercase + string.digits):
