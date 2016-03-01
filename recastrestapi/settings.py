@@ -22,7 +22,7 @@ ITEM_LOOKUP_FIELD = ID_FIELD
 config.ID_FIELD = ID_FIELD
 config.ITEM_LOOKUP_FIELD = ID_FIELD
 
-XML = True
+XML = False
 JSON = True
 
 

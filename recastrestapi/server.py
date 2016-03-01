@@ -13,9 +13,6 @@ from recastrestapi.apiconfig import config as apiconf
 
 from settings import DOMAIN, SQLALCHEMY_DATABASE_URI, DEBUG, XML, JSON, RESOURCE_METHODS, PUBLIC_ITEM_METHODS, HATEOAS, IF_MATCH, LAST_UPDATED, DATE_CREATED, ID_FIELD, ITEM_LOOKUP_FIELD
 
-from settings import DOMAIN, SQLALCHEMY_DATABASE_URI, DEBUG, XML, JSON
-
-
 class TokenAuth(TokenAuth):
     def check_auth(self, token, allowed_roles, resource, method):
         """ 
