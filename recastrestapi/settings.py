@@ -45,7 +45,6 @@ registerSchema('responses')(recastdb.models.ScanResponse)
 registerSchema('point_responses')(recastdb.models.PointResponse)
 registerSchema('basic_responses')(recastdb.models.BasicResponse)
 registerSchema('histograms')(recastdb.models.Histogram)
-registerSchema('access_tokens')(recastdb.models.AccessToken)
 
 DOMAIN = {
         'users': recastdb.models.User._eve_schema['users'],
@@ -63,7 +62,6 @@ DOMAIN = {
         'point_responses': recastdb.models.PointResponse._eve_schema['point_responses'],
         'basic_responses': recastdb.models.BasicResponse._eve_schema['basic_responses'],
         'histograms': recastdb.models.Histogram._eve_schema['histograms'],
-        'access_tokens': recastdb.models.AccessToken._eve_schema['access_tokens'],
         }
 
 DOMAIN['users'].update({
