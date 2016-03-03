@@ -11,16 +11,15 @@ from sqlalchemy.orm.exc import MultipleResultsFound
 
 from recastrestapi.apiconfig import config as apiconf
 
-from settings import DOMAIN, SQLALCHEMY_DATABASE_URI, DEBUG, XML, JSON, RESOURCE_METHODS, PUBLIC_ITEM_METHODS, HATEOAS, IF_MATCH, LAST_UPDATED, DATE_CREATED, ID_FIELD, ITEM_LOOKUP_FIELD
+from settings import DOMAIN, SQLALCHEMY_DATABASE_URI, DEBUG, XML, JSON, RESOURCE_METHODS, PUBLIC_METHODS, PUBLIC_ITEM_METHODS, HATEOAS, IF_MATCH, ID_FIELD, ITEM_LOOKUP_FIELD
 
 class TokenAuth(BasicAuth):
     def check_auth(self, orcid_id, token, allowed_roles, resource, method):
         """ 
             Token based authentications 
-        """
+        """        
         try:
             user = recastdb.models.User.query.filter(recastdb.models.User.orcid_id == orcid_id).one()
-            
             access_token = recastdb.models.AccessToken.query.filter(recastdb.models.AccessToken.token == token).one()
             return access_token.user_id == user.id
         except MultipleResultsFound, e:
@@ -35,11 +34,10 @@ SETTINGS = {
     'XML': XML,
     'JSON': JSON,
     'RESOURCE_METHODS': RESOURCE_METHODS,
+    'PUBLIC_METHODS': PUBLIC_METHODS,
     'PUBLIC_ITEM_METHODS': PUBLIC_ITEM_METHODS,
     'HATEOAS': HATEOAS,
     'IF_MATCH': IF_MATCH,
-    'LAST_UPDATED': LAST_UPDATED,
-    'DATE_CREATED': DATE_CREATED,
     'ID_FIELD': ID_FIELD,
     'ITEM_LOOKUP_FIELD': ITEM_LOOKUP_FIELD,
 }
