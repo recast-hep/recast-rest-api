@@ -1,9 +1,8 @@
 #!/bin/sh
 
 set -x
-ORCID_ID="0000-0001-7618-844X"
-#TOKEN="0dcf5b6b-db8f-4c0b-a87b-b363c6a52d2d"
-TOKEN="e350ff99-f7f9-469c-8dc4-855bf690e06a"
+ORCID_ID=
+TOKEN=
 
 
 echo "Testing GET methods: "
