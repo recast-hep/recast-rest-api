@@ -40,7 +40,7 @@ registerSchema('point_requests')(recastdb.models.PointRequest)
 registerSchema('basic_requests')(recastdb.models.BasicRequest)
 registerSchema('parameters')(recastdb.models.Parameters)
 registerSchema('parameter_points')(recastdb.models.ParameterPoint)
-registerSchema('lhe_files')(recastdb.models.LHEFile)
+registerSchema('zip_files')(recastdb.models.ZipFile)
 registerSchema('responses')(recastdb.models.ScanResponse)
 registerSchema('point_responses')(recastdb.models.PointResponse)
 registerSchema('basic_responses')(recastdb.models.BasicResponse)
@@ -57,7 +57,7 @@ DOMAIN = {
         'basic_requests': recastdb.models.BasicRequest._eve_schema['basic_requests'],
         'parameters': recastdb.models.Parameters._eve_schema['parameters'],
         'parameter_points': recastdb.models.ParameterPoint._eve_schema['parameter_points'],
-        'lhe_files': recastdb.models.LHEFile._eve_schema['lhe_files'],
+        'zip_files': recastdb.models.LHEFile._eve_schema['zip_files'],
         'responses': recastdb.models.ScanResponse._eve_schema['responses'],
         'point_responses': recastdb.models.PointResponse._eve_schema['point_responses'],
         'basic_responses': recastdb.models.BasicResponse._eve_schema['basic_responses'],
