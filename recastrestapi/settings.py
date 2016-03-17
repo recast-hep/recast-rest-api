@@ -57,7 +57,7 @@ DOMAIN = {
         'basic_requests': recastdb.models.BasicRequest._eve_schema['basic_requests'],
         'parameters': recastdb.models.Parameters._eve_schema['parameters'],
         'parameter_points': recastdb.models.ParameterPoint._eve_schema['parameter_points'],
-        'zip_files': recastdb.models.LHEFile._eve_schema['zip_files'],
+        'zip_files': recastdb.models.ZipFile._eve_schema['zip_files'],
         'responses': recastdb.models.ScanResponse._eve_schema['responses'],
         'point_responses': recastdb.models.PointResponse._eve_schema['point_responses'],
         'basic_responses': recastdb.models.BasicResponse._eve_schema['basic_responses'],
