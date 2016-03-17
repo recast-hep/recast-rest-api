@@ -1,19 +1,22 @@
 #!/bin/sh
 
 set -x
+#
+# Use the frontend to generate a token
+# 
 ORCID_ID=
 TOKEN=
 
-
 echo "Testing GET methods: "
 
-curl -u ${ORCID_ID}:${TOKEN} -H "Content-Type: application/json" -H "Accept: application/json" -X GET http://recast-rest-api.herokuapp.com/users/1
+curl -H "Content-Type: application/json" -H "Accept: application/json" -X GET http://recast-rest-api.herokuapp.com/users/1
 
 printf "\n \n \n \n"
-curl -u ${ORCID_ID}:${TOKEN} -H "Accept: application/json" http://recast-rest-api.herokuapp.com/analysis
+curl -H "Accept: application/json" http://recast-rest-api.herokuapp.com/analysis
 
 printf "\n \n \n \n"
-curl -u ${ORCID_ID}:${TOKEN} -H "Accept: application/json" http://recast-rest-api.herokuapp.com/requests
+
+curl -H "Accept: application/json" http://recast-rest-api.herokuapp.com/requests
 
 printf "\n \n \n \n"
 echo "POST Methods"
