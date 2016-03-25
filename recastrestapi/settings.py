@@ -6,10 +6,13 @@ from eve_sqlalchemy.decorators import registerSchema
 from eve.utils import config
 from recastrestapi.apiconfig import config as apiconf
 
-
 DEBUG = True
 
 SQLALCHEMY_DATABASE_URI =  apiconf['DBPATH']
+AWS_ACCESS_KEY_ID = apiconf['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = apiconf['AWS_SECRET_ACCESS_KEY']
+AWS_S3_BUCKET_NAME = apiconf['AWS_S3_BUCKET_NAME']
+ZENODO_ACCESS_TOKEN = apiconf['ZENODO_ACCESS_TOKEN']
 RESOURCE_METHODS = ['GET', 'POST', 'DELETE']
 PUBLIC_METHODS = ['GET']
 PUBLIC_ITEM_METHODS = ['GET']
