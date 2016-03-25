@@ -40,11 +40,11 @@ registerSchema('point_requests')(recastdb.models.PointRequest)
 registerSchema('basic_requests')(recastdb.models.BasicRequest)
 registerSchema('parameters')(recastdb.models.Parameters)
 registerSchema('parameter_points')(recastdb.models.ParameterPoint)
-registerSchema('zip_files')(recastdb.models.ZipFile)
+registerSchema('request_archives')(recastdb.models.RequestArchive)
 registerSchema('responses')(recastdb.models.ScanResponse)
 registerSchema('point_responses')(recastdb.models.PointResponse)
 registerSchema('basic_responses')(recastdb.models.BasicResponse)
-registerSchema('histograms')(recastdb.models.Histogram)
+registerSchema('response_archives')(recastdb.models.ResponseArchive)
 
 DOMAIN = {
         'users': recastdb.models.User._eve_schema['users'],
@@ -57,11 +57,11 @@ DOMAIN = {
         'basic_requests': recastdb.models.BasicRequest._eve_schema['basic_requests'],
         'parameters': recastdb.models.Parameters._eve_schema['parameters'],
         'parameter_points': recastdb.models.ParameterPoint._eve_schema['parameter_points'],
-        'zip_files': recastdb.models.ZipFile._eve_schema['zip_files'],
+        'request_archives': recastdb.models.RequestArchive._eve_schema['request_archives'],
         'responses': recastdb.models.ScanResponse._eve_schema['responses'],
         'point_responses': recastdb.models.PointResponse._eve_schema['point_responses'],
         'basic_responses': recastdb.models.BasicResponse._eve_schema['basic_responses'],
-        'histograms': recastdb.models.Histogram._eve_schema['histograms'],
+        'response_archives': recastdb.models.ResponseArchive._eve_schema['response_archives'],
         }
 
 DOMAIN['users'].update({
