@@ -17,6 +17,11 @@ from settings import PUBLIC_ITEM_METHODS, HATEOAS, IF_MATCH, ID_FIELD, ITEM_LOOK
 from settings import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_S3_BUCKET_NAME
 from settings import ZENODO_ACCESS_TOKEN
 
+from eve.io.media import MediaStorage
+from boto3.session import Session
+import requests as httprequest
+import json
+
 class TokenAuth(BasicAuth):
     def check_auth(self, orcid_id, token, allowed_roles, resource, method):
         """ 
@@ -48,33 +53,47 @@ SETTINGS = {
     'ITEM_LOOKUP_FIELD': ITEM_LOOKUP_FIELD,
 }
 
-def pre_request_archives_get_callback(request, lookup):
-    print "GET:"*60
-    print "request", request
-    print "#"*30
-    print "lookup", lookup
 
-def pre_request_get_callback(resource, request, lookup):
-    print "GET Global:"*60
-    print "request", request
-    print "#"*30
-    print "lookup", lookup
 
-def pre_request_archives_post_callback(request, payload):
-    print ":"*60
-    print "request", request
-    print "#"*30
-    print "lookup", payload
+def pre_request_archives_post_callback(request, lookup=None):
+    zip_file = request.files.get('recast_file')
+    if zip_file:
+        upload_AWS(zip_file, request.form['file_name']) 
+        deposition_id = -1 #remember to change this
+        #upload_zenodo(deposition_id, request.form['file_name'], zip_file)
 
-def pre_response_archives_post_callback(request, lookup):
-    pass
-    
+def pre_request_archives_get_callback(request, lookup=None):
+    try:
+        if request.args.has_key('download'):
+            file_name = json.loads(lookup.__dict__['response'][0])['file_name']
+            original_file_name = json.loads(lookup.__dict__['response'][0])['original_file_name']
+            path = None
+            if request.args.has_key('path'):
+                path = request.args.get('path')
+            download_AWS(file_name, original_file_name, path)
+    except Exception, e:
+        # to handle requests from the web interface
+        print json.dumps(lookup.__dict__['response'][0])
+        print "nothing"
+        return
+
+def pre_request_post_callback(request, lookup=None):
+    username = request.args['username']
+    orcid_id = request.__dict__['authorization']['username']
+    request_uuid = request.form['uuid']
+    description = request.form['description']
+    deposition_id = create_depostion(username, 
+                                     orcid_id, 
+                                     request_uuid, 
+                                     description)
+    request_form['zenodo_deposition_id'] = deposition_id
+
 def upload_AWS(zip_file, file_uuid):
     session = Session(AWS_ACCESS_KEY_ID,
                  AWS_SECRET_ACCESS_KEY)
     s3 = session.resource('s3')
-    data = open(zip_file, 'rb')
-    s3.Bucket(AWS_BUCKET_NAME).put_object(Key=str(file_uuid), Body=data)
+    s3.Bucket(AWS_S3_BUCKET_NAME).put_object(
+        Key=str(file_uuid), Body=zip_file, ACL='public-read')
 
 def download_AWS(file_name, original_file_name, download_path=None):
     session = Session(AWS_ACCESS_KEY_ID,
@@ -99,20 +118,66 @@ def create_deposition(username, orcid_id, request_uuid, description):
             }
                        }
     response = httprequest.post(url, data=json.dumps(deposition_data), headers=headers)
+    print "UU"*40
+    print response
     return response.json()['id']
 
 def upload_zenodo(deposition_id, file_uuid, zip_file):
     url = 'https://zenodo.org/api/deposit/depositions/{}/files?access_token={}'.format(
         deposition_id, ZENODO_ACCESS_TOKEN)
     json_data_file = {"filename": file_uuid}
-    response = httprequest.post(url, data=json_data_file, files=files)
+    response = httprequest.post(url, data=json_data_file, files=zip_file)
     return response.json()['id']
+
+
+class RecastMediaStorage(MediaStorage):
+    """
+    The RecastMediaStorage class stores files into s3 and Zenodo
+       Might eventually finish implementing this class \
+        so we have all upload into a single class
+    """
+
+    def __init__(self, app=None):
+        super(RecastS3MediaStorage, self).__init__(app)
+        print "$"*60
+        self.validate()
+    
+    def validate(self):
+        if AWS_ACCESS_KEY_ID is None:
+            raise TypeError('AWS_ACCESS_KEY_ID cannot be null!')
+        if AWS_SECRET_ACCESS_KEY is None:
+            raise TypeError('AWS_SECRET_ACCESS_KEY cannot be null!')
+        if AWS_S3_BUCKET_NAME is None:
+            raise TypeError('AWS_BUCKET_NAME cannot be null')
+        
+    def get(self, _id, resource=None):
+        """Return the file given bu unique id. Returns None if 
+        no file was found.
+        """
+        session = Session(AWS_ACCESS_KEY_ID,
+                          AWS_SECRET_ACCESS_KEY)
+        s3 = session.resource('s3')
+        out_file = download_path or original_file_name
+        s3.Bucket(AWS_S3_BUCKET_NAME).download_file(_id, out_file)
+    
+    def post(self, _id, resource=None):
+        print "^&"*60
+        session = Session(AWS_ACCESS_KEY_ID,
+                          AWS_SECRET_ACCESS_KEY)
+        s3 = session.resource('s3')
+        s3.Bucket(AWS_S3_BUCKET_NAME).put_object(Key=str(_id), Body=data)
+
+    def  put(self, _id, resource=None):
+        pass
+    def exists(self, _id, resource=None):
+        pass
+    def delete(self, _id, resource=None):
+        pass
 
 app = Eve(auth=TokenAuth, settings=SETTINGS, validator=ValidatorSQL, data=SQL)
 
-app.on_pre_GET_request_archives += pre_request_archives_get_callback
-app.on_insert += pre_request_archives_post_callback
-app.on_pre_POST_response_archives += pre_response_archives_post_callback
+app.on_pre_POST_request_archives += pre_request_archives_post_callback
+app.on_post_GET_request_archives += pre_request_archives_get_callback
 
 Base = recastdb.database.db.Model
 
