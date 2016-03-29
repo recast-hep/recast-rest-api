@@ -191,7 +191,7 @@ app.on_pre_POST_request_archives += pre_request_archives_post_callback
 app.on_post_GET_request_archives += pre_request_archives_get_callback
 app.on_pre_GET_request += pre_request_post_callback
 
-app.on_pre_POST_response_archives += pre_response_post_callback
+app.on_pre_POST_response_archives += pre_response_archives_post_callback
 app.on_post_GET_response_archives += pre_request_archives_get_callback
 
 Base = recastdb.database.db.Model
