@@ -64,6 +64,9 @@ def pre_request_archives_post_callback(request, lookup=None):
             request_form['zenodo_file_id'] = file_id
 
 def pre_request_archives_get_callback(request, lookup=None):
+    """ download file for request archive
+        used for response archive too
+    """
     try:
         if request.args.has_key('download'):
             file_name = json.loads(lookup.__dict__['response'][0])['file_name']
@@ -78,7 +81,9 @@ def pre_request_archives_get_callback(request, lookup=None):
         print "nothing"
         return
 
+
 def pre_request_post_callback(request, lookup=None):
+    """ creating depositions for request """
     username = request.args['username']
     orcid_id = request.__dict__['authorization']['username']
     request_uuid = request.form['uuid']
@@ -89,6 +94,11 @@ def pre_request_post_callback(request, lookup=None):
                                      description)
     request_form['zenodo_deposition_id'] = deposition_id
 
+def pre_response_archives_post_callback(request, lookup=None):
+    zip_file = request.files.get('recast_file')
+    if zip_file:
+        upload_AWS(zip_file, request.form['file_name'])
+        
 def upload_AWS(zip_file, file_uuid):
     session = Session(AWS_ACCESS_KEY_ID,
                  AWS_SECRET_ACCESS_KEY)
@@ -179,6 +189,10 @@ app = Eve(auth=TokenAuth, settings=SETTINGS, validator=ValidatorSQL, data=SQL)
 
 app.on_pre_POST_request_archives += pre_request_archives_post_callback
 app.on_post_GET_request_archives += pre_request_archives_get_callback
+app.on_pre_GET_request += pre_request_post_callback
+
+app.on_pre_POST_response_archives += pre_response_post_callback
+app.on_post_GET_response_archives += pre_request_archives_get_callback
 
 Base = recastdb.database.db.Model
 
