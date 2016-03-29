@@ -18,6 +18,8 @@ setup(
         'IPython',
         'psycopg2',
         'click',
+        'boto3',
+        'requests',
         'recast-database'
         ],
     entry_points = {
