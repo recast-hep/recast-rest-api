@@ -107,3 +107,7 @@ DOMAIN['run_conditions'].update({
 DOMAIN['request_archives'].update({
         'allow_unknown': True,
         })
+
+DOMAIN['response_archives'].update({
+        'allow_unknown': True,
+        })

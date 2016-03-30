@@ -54,9 +54,9 @@ SETTINGS = {
 }
 
 def pre_request_archives_post_callback(request, lookup=None):
-    zip_file = request.files.get('recast_file')
+    zip_file = request.files.get('file')
     if zip_file:
-        upload_AWS(zip_file, request.form['file_name'])        
+        upload_AWS(zip_file, request.form['file_name'])
     """
         if request.args.has_key('deposition_id'):
             deposition_id = request.args.get('deposition_id')
@@ -64,7 +64,7 @@ def pre_request_archives_post_callback(request, lookup=None):
             request_form['zenodo_file_id'] = file_id
     """        
 
-def pre_request_archives_get_callback(request, lookup=None):
+def pre_archives_get_callback(request, lookup=None):
     """ download file for request archive
         used for response archive too
     """
@@ -96,7 +96,7 @@ def pre_request_post_callback(request, lookup=None):
     request_form['zenodo_deposition_id'] = deposition_id
 
 def pre_response_archives_post_callback(request, lookup=None):
-    zip_file = request.files.get('recast_file')
+    zip_file = request.files.get('file')
     if zip_file:
         upload_AWS(zip_file, request.form['file_name'])
         
@@ -139,24 +139,25 @@ def upload_zenodo(deposition_id, file_uuid, zip_file):
     response = httprequest.post(url, data=json_data_file, files=zip_file)
     return response.json()['id']
 
-def before_insert_request_archives(request, lookup=None):
+def before_insert_archives(request, lookup=None):
     try:
         #delete the recast_file filestorage object(not entered in db)
-        del request[0]['recast_file']
+        del request[0]['file']
     except Exception, e:
         pass
 
 app = Eve(auth=TokenAuth, settings=SETTINGS, validator=ValidatorSQL, data=SQL)
 
-app.on_pre_POST_request_archives += pre_request_archives_post_callback
-app.on_post_GET_request_archives += pre_request_archives_get_callback
 app.on_pre_GET_request += pre_request_post_callback
 
+app.on_pre_POST_request_archives += pre_request_archives_post_callback
+app.on_post_GET_request_archives += pre_archives_get_callback
+
 app.on_pre_POST_response_archives += pre_response_archives_post_callback
-app.on_post_GET_response_archives += pre_request_archives_get_callback
+app.on_post_GET_response_archives += pre_archives_get_callback
 
-app.on_insert_request_archives += before_insert_request_archives
-
+app.on_insert_request_archives += before_insert_archives
+app.on_insert_response_archives += before_insert_archives
 Base = recastdb.database.db.Model
 
 #bind SQLAlchemy
