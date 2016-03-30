@@ -53,15 +53,16 @@ SETTINGS = {
     'ITEM_LOOKUP_FIELD': ITEM_LOOKUP_FIELD,
 }
 
-
 def pre_request_archives_post_callback(request, lookup=None):
     zip_file = request.files.get('recast_file')
+    """
     if zip_file:
-        upload_AWS(zip_file, request.form['file_name']) 
+        upload_AWS(zip_file, request.form['file_name'])
         if request.args.has_key('deposition_id'):
             deposition_id = request.args.get('deposition_id')
             file_id = upload_zenodo(deposition_id, request.form['file_name'], zip_file)
             request_form['zenodo_file_id'] = file_id
+    """        
 
 def pre_request_archives_get_callback(request, lookup=None):
     """ download file for request archive
@@ -129,8 +130,6 @@ def create_deposition(username, orcid_id, request_uuid, description):
             }
                        }
     response = httprequest.post(url, data=json.dumps(deposition_data), headers=headers)
-    print "UU"*40
-    print response
     return response.json()['id']
 
 def upload_zenodo(deposition_id, file_uuid, zip_file):
@@ -140,49 +139,11 @@ def upload_zenodo(deposition_id, file_uuid, zip_file):
     response = httprequest.post(url, data=json_data_file, files=zip_file)
     return response.json()['id']
 
-
-class RecastMediaStorage(MediaStorage):
-    """
-    The RecastMediaStorage class stores files into s3 and Zenodo
-       Might eventually finish implementing this class \
-        so we have all upload into a single class
-    """
-
-    def __init__(self, app=None):
-        super(RecastS3MediaStorage, self).__init__(app)
-        print "$"*60
-        self.validate()
-    
-    def validate(self):
-        if AWS_ACCESS_KEY_ID is None:
-            raise TypeError('AWS_ACCESS_KEY_ID cannot be null!')
-        if AWS_SECRET_ACCESS_KEY is None:
-            raise TypeError('AWS_SECRET_ACCESS_KEY cannot be null!')
-        if AWS_S3_BUCKET_NAME is None:
-            raise TypeError('AWS_BUCKET_NAME cannot be null')
-        
-    def get(self, _id, resource=None):
-        """Return the file given bu unique id. Returns None if 
-        no file was found.
-        """
-        session = Session(AWS_ACCESS_KEY_ID,
-                          AWS_SECRET_ACCESS_KEY)
-        s3 = session.resource('s3')
-        out_file = download_path or original_file_name
-        s3.Bucket(AWS_S3_BUCKET_NAME).download_file(_id, out_file)
-    
-    def post(self, _id, resource=None):
-        print "^&"*60
-        session = Session(AWS_ACCESS_KEY_ID,
-                          AWS_SECRET_ACCESS_KEY)
-        s3 = session.resource('s3')
-        s3.Bucket(AWS_S3_BUCKET_NAME).put_object(Key=str(_id), Body=data)
-
-    def  put(self, _id, resource=None):
-        pass
-    def exists(self, _id, resource=None):
-        pass
-    def delete(self, _id, resource=None):
+def before_insert_request_archives(request, lookup=None):
+    try:
+        #delete the recast_file filestorage object(not entered in db)
+        del request[0]['recast_file']
+    except Exception, e:
         pass
 
 app = Eve(auth=TokenAuth, settings=SETTINGS, validator=ValidatorSQL, data=SQL)
@@ -193,6 +154,8 @@ app.on_pre_GET_request += pre_request_post_callback
 
 app.on_pre_POST_response_archives += pre_response_archives_post_callback
 app.on_post_GET_response_archives += pre_request_archives_get_callback
+
+app.on_insert_request_archives += before_insert_request_archives
 
 Base = recastdb.database.db.Model
 

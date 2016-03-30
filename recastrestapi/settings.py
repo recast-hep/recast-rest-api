@@ -102,3 +102,8 @@ DOMAIN['run_conditions'].update({
         'item_methods': ['GET', 'PUT', 'PATCH'],
         'resource_methods': ['GET', 'POST', 'DELETE']
         })
+
+            
+DOMAIN['request_archives'].update({
+        'allow_unknown': True,
+        })
