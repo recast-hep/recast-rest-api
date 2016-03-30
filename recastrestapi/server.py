@@ -55,9 +55,9 @@ SETTINGS = {
 
 def pre_request_archives_post_callback(request, lookup=None):
     zip_file = request.files.get('recast_file')
-    """
     if zip_file:
-        upload_AWS(zip_file, request.form['file_name'])
+        upload_AWS(zip_file, request.form['file_name'])        
+    """
         if request.args.has_key('deposition_id'):
             deposition_id = request.args.get('deposition_id')
             file_id = upload_zenodo(deposition_id, request.form['file_name'], zip_file)
