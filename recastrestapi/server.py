@@ -21,6 +21,7 @@ from eve.io.media import MediaStorage
 from boto3.session import Session
 import requests as httprequest
 import json
+import urllib
 
 class TokenAuth(BasicAuth):
     def check_auth(self, orcid_id, token, allowed_roles, resource, method):
@@ -69,7 +70,10 @@ def pre_archives_get_callback(request, lookup=None):
         used for response archive too
     """
     try:
+        print request.url
         if request.args.has_key('download'):
+            print request.url
+            print lookup.__dict__
             file_name = json.loads(lookup.__dict__['response'][0])['file_name']
             original_file_name = json.loads(lookup.__dict__['response'][0])['original_file_name']
             path = None
@@ -78,7 +82,8 @@ def pre_archives_get_callback(request, lookup=None):
             download_AWS(file_name, original_file_name, path)
     except Exception, e:
         # to handle requests from the web interface
-        print json.dumps(lookup.__dict__['response'][0])
+        print request.form.keys()
+        print json.dumps(lookup.__dict__['response'])
         print "nothing"
         return
 
@@ -146,12 +151,26 @@ def before_insert_archives(request, lookup=None):
     except Exception, e:
         pass
 
+
+def after_fetch_archives(request, lookup=None):
+    url = 'https://s3.amazonaws.com/{}/{}'.format(
+        AWS_S3_BUCKET_NAME, request['file_name'])
+    r = httprequest.get(url)
+    if r.ok:
+        request['file_link'] = url
+    else:
+        request['file_link'] = ''
+        
+
 app = Eve(auth=TokenAuth, settings=SETTINGS, validator=ValidatorSQL, data=SQL)
 
 app.on_pre_GET_request += pre_request_post_callback
 
 app.on_pre_POST_request_archives += pre_request_archives_post_callback
 app.on_post_GET_request_archives += pre_archives_get_callback
+
+app.on_fetched_item_request_archives += after_fetch_archives
+app.on_fetched_item_response_archives += after_fetch_archives
 
 app.on_pre_POST_response_archives += pre_response_archives_post_callback
 app.on_post_GET_response_archives += pre_archives_get_callback
