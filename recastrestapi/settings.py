@@ -8,6 +8,8 @@ from recastrestapi.apiconfig import config as apiconf
 
 DEBUG = True
 
+MY_HOST = 'http://recast-rest-api.herokuapp.com'
+
 SQLALCHEMY_DATABASE_URI =  apiconf['DBPATH']
 AWS_ACCESS_KEY_ID = apiconf['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = apiconf['AWS_SECRET_ACCESS_KEY']
@@ -80,11 +82,7 @@ DOMAIN['users'].update({
         })
 
 DOMAIN['analysis'].update({
-        'item_lookup_field': 'id',
-        'additional_lookup': {
-            'url': 'regex("[\w]+")',
-            'field': 'collaboration'
-            },
+        'item_lookup_field': 'id',                
         'cache_control': 'max-age=10,must-revalidate',
         'cache_expires': 10,
         'resource_methods': ['GET', 'POST', 'DELETE']
@@ -102,7 +100,6 @@ DOMAIN['run_conditions'].update({
         'item_methods': ['GET', 'PUT', 'PATCH'],
         'resource_methods': ['GET', 'POST', 'DELETE']
         })
-
             
 DOMAIN['request_archives'].update({
         'allow_unknown': True,
