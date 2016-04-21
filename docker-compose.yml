@@ -4,10 +4,11 @@ recastrestapi:
    - "5000:5000"
   volumes:
    - ./recastrestapi:/recast-rest-api/recastrestapi
-   - config.yaml:/recast-rest-api/recastrestapi/resources/defaultconfig.yaml
+   - ./config.yaml:/recast-rest-api/recastrestapi/resources/defaultconfig.yaml
   links:
    - db
 
 db:
   image: postgres
-  restart: always
+  ports:
+   - "5432:5432"
