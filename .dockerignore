@@ -3,3 +3,5 @@
 recastrestapi/*~
 recastrestapi/*.pyc
 config.yaml
+*.yaml
+*.yml
