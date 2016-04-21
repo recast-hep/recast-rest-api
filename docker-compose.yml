@@ -3,7 +3,7 @@ recastrestapi:
   ports:
    - "5000:5000"
   volumes:
-   - .:/recast-rest-api
+   - ./recastrestapi:/recast-rest-api/recastrestapi
   links:
    - db
 
