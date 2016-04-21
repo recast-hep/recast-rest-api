@@ -1,0 +1,12 @@
+recastrestapi:
+  build: .
+  ports:
+   - "5000:5000"
+  volumes:
+   - .:/recast-rest-api
+  links:
+   - db
+
+db:
+  image: postgres
+  restart: always
