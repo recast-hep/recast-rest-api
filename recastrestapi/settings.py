@@ -40,7 +40,7 @@ registerSchema('analysis')(recastdb.models.Analysis)
 registerSchema('subscriptions')(recastdb.models.Subscription)
 registerSchema('run_conditions')(recastdb.models.RunCondition)
 registerSchema('models')(recastdb.models.Model)
-registerSchema('requests')(recastdb.models.ScanRequest)
+registerSchema('scan_requests')(recastdb.models.ScanRequest)
 registerSchema('point_requests')(recastdb.models.PointRequest)
 registerSchema('basic_requests')(recastdb.models.BasicRequest)
 registerSchema('parameters')(recastdb.models.Parameters)
@@ -57,7 +57,7 @@ DOMAIN = {
         'subscriptions': recastdb.models.Subscription._eve_schema['subscriptions'],
         'run_conditions': recastdb.models.RunCondition._eve_schema['run_conditions'],
         'models': recastdb.models.Model._eve_schema['models'],
-        'requests': recastdb.models.ScanRequest._eve_schema['requests'],
+        'scan_requests': recastdb.models.ScanRequest._eve_schema['scan_requests'],
         'point_requests': recastdb.models.PointRequest._eve_schema['point_requests'],
         'basic_requests': recastdb.models.BasicRequest._eve_schema['basic_requests'],
         'parameters': recastdb.models.Parameters._eve_schema['parameters'],
@@ -106,5 +106,32 @@ DOMAIN['request_archives'].update({
         })
 
 DOMAIN['response_archives'].update({
+        'allow_unknown': True,
+        })
+
+DOMAIN['scan_requests'].update({
+        'item_lookup_field': 'id',
+        'additional_lookup': {
+            'url': 'regex("[0-9]+")',
+            'field': 'id'
+            },
+        'cache_control': 'max-age=10,must-revalidate',
+        'cache_expires': 10,
+        'resource_methods': ['GET', 'POST', 'DELETE'],
+        'item_methods': ['GET', 'PUT', 'PATCH'],
+        'url': 'requests',
+        })
+            
+
+DOMAIN['point_requests'].update({
+        'item_lookup_field': 'id',
+        'additional_lookup': {
+            'url': 'regex("[0-9]+")',
+            'field': 'id'
+            },
+        'cache_control': 'max-age=10,must-revalidate',
+        'cache_expires': 10,
+        'resource_methods': ['GET', 'POST', 'DELETE'],
+        'item_methods': ['GET', 'PUT', 'PATCH'],
         'allow_unknown': True,
         })

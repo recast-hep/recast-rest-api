@@ -52,6 +52,7 @@ SETTINGS = {
     'IF_MATCH': IF_MATCH,
     'ID_FIELD': ID_FIELD,
     'ITEM_LOOKUP_FIELD': ITEM_LOOKUP_FIELD,
+    'SQLALCHEMY_TRACK_MODIFICATIONS': True
 }
 
 def pre_request_archives_post_callback(request, lookup=None):
@@ -165,7 +166,10 @@ def after_fetch_archives(request, lookup=None):
     else:
         request['file_link'] = ''
 
+
 app = Eve(auth=TokenAuth, settings=SETTINGS, validator=ValidatorSQL, data=SQL)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+
 
 app.on_insert_request += before_insert_request
 
