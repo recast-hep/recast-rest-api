@@ -44,7 +44,7 @@ registerSchema('scan_requests')(recastdb.models.ScanRequest)
 registerSchema('point_requests')(recastdb.models.PointRequest)
 registerSchema('basic_requests')(recastdb.models.BasicRequest)
 registerSchema('parameters')(recastdb.models.Parameters)
-registerSchema('parameter_points')(recastdb.models.ParameterPoint)
+registerSchema('point_coordinates')(recastdb.models.ParameterPoint)
 registerSchema('request_archives')(recastdb.models.RequestArchive)
 registerSchema('responses')(recastdb.models.ScanResponse)
 registerSchema('point_responses')(recastdb.models.PointResponse)
@@ -61,7 +61,7 @@ DOMAIN = {
         'point_requests': recastdb.models.PointRequest._eve_schema['point_requests'],
         'basic_requests': recastdb.models.BasicRequest._eve_schema['basic_requests'],
         'parameters': recastdb.models.Parameters._eve_schema['parameters'],
-        'parameter_points': recastdb.models.ParameterPoint._eve_schema['parameter_points'],
+        'point_coordinates': recastdb.models.ParameterPoint._eve_schema['point_coordinates'],
         'request_archives': recastdb.models.RequestArchive._eve_schema['request_archives'],
         'responses': recastdb.models.ScanResponse._eve_schema['responses'],
         'point_responses': recastdb.models.PointResponse._eve_schema['point_responses'],
@@ -135,3 +135,17 @@ DOMAIN['point_requests'].update({
         'item_methods': ['GET', 'PUT', 'PATCH'],
         'allow_unknown': True,
         })
+
+DOMAIN['point_coordinates'].update({
+    'item_lookup_field': 'id',
+    'additional_lookup': {
+        'url': 'regex("[0-9]+")',
+        'field': 'id'
+        },
+    'cache_control': 'max-age=10,must-revalidate',
+    'cache_expires': 10,
+    'resource_methods': ['GET', 'POST', 'DELETE'],
+    'item_methods': ['GET', 'PUT', 'PATCH'],
+    'url': 'parameter_points',
+    })
+    
