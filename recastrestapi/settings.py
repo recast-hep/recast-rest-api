@@ -44,7 +44,7 @@ registerSchema('scan_requests')(recastdb.models.ScanRequest)
 registerSchema('point_requests')(recastdb.models.PointRequest)
 registerSchema('basic_requests')(recastdb.models.BasicRequest)
 registerSchema('parameters')(recastdb.models.Parameters)
-registerSchema('point_coordinates')(recastdb.models.ParameterPoint)
+registerSchema('point_coordinates')(recastdb.models.PointCoordinate)
 registerSchema('request_archives')(recastdb.models.RequestArchive)
 registerSchema('responses')(recastdb.models.ScanResponse)
 registerSchema('point_responses')(recastdb.models.PointResponse)
@@ -61,7 +61,7 @@ DOMAIN = {
         'point_requests': recastdb.models.PointRequest._eve_schema['point_requests'],
         'basic_requests': recastdb.models.BasicRequest._eve_schema['basic_requests'],
         'parameters': recastdb.models.Parameters._eve_schema['parameters'],
-        'point_coordinates': recastdb.models.ParameterPoint._eve_schema['point_coordinates'],
+        'point_coordinates': recastdb.models.PointCoordinate._eve_schema['point_coordinates'],
         'request_archives': recastdb.models.RequestArchive._eve_schema['request_archives'],
         'responses': recastdb.models.ScanResponse._eve_schema['responses'],
         'point_responses': recastdb.models.PointResponse._eve_schema['point_responses'],
