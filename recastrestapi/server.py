@@ -76,7 +76,7 @@ def pre_response_archives_post_callback(request, lookup=None):
     """ 
        Uploads Response file to AWS S3
  
-   """
+    """
     zip_file = request.files.get('file')
     if zip_file:
         upload_AWS(zip_file, request.form['file_name'])
@@ -158,6 +158,7 @@ def before_insert_archives(request_data, lookup=None):
 
 
 def after_fetch_archives(request, lookup=None):
+	""" Function to add download link in the response """
     url = 'https://s3.amazonaws.com/{}/{}'.format(
         AWS_S3_BUCKET_NAME, request['file_name'])
     r = httprequest.get(url)
