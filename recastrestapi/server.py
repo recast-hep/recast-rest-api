@@ -56,15 +56,13 @@ def pre_request_archives_post_callback(request, lookup=None):
 		Uploads Request file to AWS s3
 	"""
 	zip_file = request.files.get('file')
+	orcid_id = request.__dict__['authorization']['username']
 	if zip_file:
-		username = ''
-		orcid_id = ''
-		description = ''
-		title = ''
-		metadata = {'title': title,
-					'owner': username,
-					'orcid_id': orcid_id,
-					'description': description
+		tag = 'request'
+		metadata = {'tag': tag, 
+					'username': orcid_id,
+					'originalname': zip_file.filename,
+					'filename': request.form['file_name']
 					}
 		upload_AWS(zip_file, request.form['file_name'], metadata)
 
@@ -74,8 +72,16 @@ def pre_response_archives_post_callback(request, lookup=None):
  
 	"""
 	zip_file = request.files.get('file')
-	if zip_file:
-		upload_AWS(zip_file, request.form['file_name'])
+	
+	orcid_id = request.__dict__['authorization']['username']
+	if zip_file:		
+		tag = 'response'
+		metadata = {'tag': tag,
+					'originalname': zip_file.filename,
+					'username': orcid_id,
+					'filename': request.form['file_name']
+				}
+		upload_AWS(zip_file, request.form['file_name'], metadata=metadata)
 		
 def upload_AWS(zip_file, file_uuid, metadata=None):
 	session = Session(AWS_ACCESS_KEY_ID,
