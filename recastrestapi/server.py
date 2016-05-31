@@ -190,4 +190,4 @@ Base = recastdb.database.db.Model
 db = app.data.driver
 Base.metadata.bind = db.engine
 db.Model = Base()
-db.create_all()
+# db.create_all()

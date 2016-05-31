@@ -6,10 +6,10 @@ COPY . /recast-rest-api/
 
 RUN pip install -e . --process-dependency-links
 
-# Add user
-RUN groupadd -r recast && useradd -r -g recast recast
-
-EXPOSE 5000
-USER recast
-
-CMD ["recast-api", "server"]
+# # Add user
+# RUN groupadd -r recast && useradd -r -g recast recast
+#
+# EXPOSE 5000
+# USER recast
+#
+# CMD ["recast-api", "server"]
