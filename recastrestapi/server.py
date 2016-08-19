@@ -4,8 +4,6 @@ from recastdb.database import db
 from eve import Eve
 from eve_sqlalchemy import SQL
 from eve_sqlalchemy.validation import ValidatorSQL
-from sqlalchemy.orm.exc import NoResultFound
-from sqlalchemy.orm.exc import MultipleResultsFound
 
 from settings import DOMAIN, SQLALCHEMY_DATABASE_URI, DEBUG, PAGINATION_DEFAULT
 from settings import XML, JSON, RESOURCE_METHODS, PUBLIC_METHODS, ITEM_METHODS

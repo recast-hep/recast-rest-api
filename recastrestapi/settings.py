@@ -27,9 +27,10 @@ XML = True
 JSON = True
 
 from eve.auth import BasicAuth
+from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.orm.exc import MultipleResultsFound
 class TokenAuth(BasicAuth):
 	def check_auth(self, orcid_id, token, allowed_roles, resource, method):
-		print 'CHECKING AUTH',orcid_id,token
 		"""
 			Token based authentications
 		"""
