@@ -20,7 +20,8 @@ setup(
         'click',
         'boto3',
         'requests',
-        'recast-database'
+        'recast-database',
+        'eve-swagger'
         ],
     entry_points = {
         'console_scripts': [
