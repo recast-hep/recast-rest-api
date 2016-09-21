@@ -4,6 +4,7 @@ from recastdb.database import db
 from eve import Eve
 from eve_sqlalchemy import SQL
 from eve_sqlalchemy.validation import ValidatorSQL
+from eve_swagger import swagger
 
 from settings import DOMAIN, SQLALCHEMY_DATABASE_URI, DEBUG, PAGINATION_DEFAULT
 from settings import XML, JSON, RESOURCE_METHODS, PUBLIC_METHODS, ITEM_METHODS
@@ -16,6 +17,7 @@ import requests as httprequest
 import json
 
 SETTINGS = {
+	'PAGINATION_LIMIT': PAGINATION_DEFAULT
 	'PAGINATION_DEFAULT':PAGINATION_DEFAULT,
 	'DOMAIN': DOMAIN,
 	'SQLALCHEMY_DATABASE_URI': SQLALCHEMY_DATABASE_URI,
@@ -32,6 +34,8 @@ SETTINGS = {
 	'ITEM_LOOKUP_FIELD': ITEM_LOOKUP_FIELD,
 	'SQLALCHEMY_TRACK_MODIFICATIONS': True
 }
+
+
 
 def pre_request_archives_post_callback(request, lookup=None):
 	print type(request.files),request.files
@@ -102,6 +106,24 @@ def response_archive_patch_callback(request, lookup = None):
 	upload_with_tag(request,'response')
 
 app = Eve(auth=TokenAuth, settings=SETTINGS, validator=ValidatorSQL, data=SQL)
+
+
+app.register_blueprint(swagger)
+app.config['SWAGGER_INFO'] = {
+    'title': 'RECAST API',
+    'version': '1.0',
+    'description': 'RESTful API to RECAST Service',
+    'termsOfService': 'use at your own risk',
+    'contact': {
+        'name': 'Lukas Heinrich',
+        'url': 'https://recast-frontend.cern.ch'
+    },
+    'license': {
+        'name': 'BSD',
+        'url': 'https://recast-frontend.cern.ch',
+    }
+}
+
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
