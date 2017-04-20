@@ -15,7 +15,6 @@ setup(
         'eve-sqlalchemy',
         'celery',
         'pyyaml',
-        'IPython',
         'psycopg2',
         'click',
         'boto3',
