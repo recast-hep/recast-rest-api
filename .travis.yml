@@ -4,9 +4,9 @@ python:
 install:
 - pip install -e . --process-dependency-links
 script:
-- docker build -t recast/frontend:git-"$TRAVIS_BRANCH" .
+- docker build -t recast/frontend-rest-server:git-"$TRAVIS_BRANCH" .
 - docker login -u $DOCKERLOGIN -p $DOCKERPW
-- docker push recast/frontend:git-"$TRAVIS_BRANCH"
+- docker push recast/frontend-rest-server:git-"$TRAVIS_BRANCH"
 env:
   global:
   - secure: ZcPgYpxOVMVl6FHCK8DgyEzaRyll0nqGzzXHLfHFeTIAAsT4pJB/jMtuooArUMX8gHriGm9O/E2l+ywTBlfey7ru2EMXp3SwHtTvImPv42225nVVvLoNx/Ds0aqijb6CuH2s6YvXZnUuJYJ+UejMLvmvO0EswIlzCReRAY3CRiTjjyMHjbUsSwYfXh/d2mMGCevVw7jkEGv9+EriI1PRG92PPQISOxw5cMl0FvLmrRq0iHgB5MUxU7hg8luonHb9boGo5Urm/cqKfaXRIdAgE0s7Otpfl0EpvOaMXHQ/FlGt4EfnvvR25cl+jXHVZ5iMEOhPyEBVehsdFO/bSYq6Gr9vJcijvdf6NiCD/xi+ZUT5IdJiV0bc8AZu7wfVQtUpvBrb0KWBkWfZOXsCTm5h+XXaDht9W1uA4UUZeAVxFjs0GUeYtF2QPA3pqh5U84Xm6Sh7649Cd0c20CUfDvg9TFmDciEUUnEF6hR6tLT1kzpCwVjW/Sczr/f0QQLRSX1eg1IP0zYdE3hrWthXVnKfZjHKIcMzISFX9NenTp0at4MFNKJnc8InjBr+wW1qY6pqaMtjma8F3CgISxyff8WZltlaCn1C7T+cTkqQC8uAOYEsV79nCN6tZ74BFpppGR3M5GNp0LxpIgfbvhReZy5HKF2M9iq4L94ovmFoQRSyXik=
