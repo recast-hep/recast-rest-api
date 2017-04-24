@@ -4,8 +4,6 @@ services:
 language: python
 python:
 - '2.7'
-install:
-- pip install -e . --process-dependency-links
 script:
 - docker build -t recast/frontend-rest-server:git-"$TRAVIS_BRANCH" .
 - docker login -u $DOCKERLOGIN -p $(echo $DOCKERPW|base64 -d)
