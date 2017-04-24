@@ -13,6 +13,7 @@ setup(
         'werkzeug==0.10.4',
 #        'Eve==0.5.3',
         'eve-sqlalchemy',
+        'markupsafe==0.23',
         'celery',
         'pyyaml',
         'psycopg2',
