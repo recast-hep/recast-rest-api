@@ -6,7 +6,10 @@ from eve_sqlalchemy import SQL
 from eve_sqlalchemy.validation import ValidatorSQL
 from eve_swagger import swagger
 
-from settings import DOMAIN, SQLALCHEMY_DATABASE_URI, DEBUG, PAGINATION_DEFAULT
+import uuid
+import werkzeug.datastructures
+
+from settings import DOMAIN, SQLALCHEMY_DATABASE_URI, DEBUG, PAGINATION_DEFAULT, EMBEDDING
 from settings import XML, JSON, RESOURCE_METHODS, PUBLIC_METHODS, ITEM_METHODS
 from settings import PUBLIC_ITEM_METHODS, HATEOAS, IF_MATCH, ID_FIELD, ITEM_LOOKUP_FIELD
 from settings import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_S3_BUCKET_NAME
@@ -32,7 +35,8 @@ SETTINGS = {
 	'IF_MATCH': IF_MATCH,
 	'ID_FIELD': ID_FIELD,
 	'ITEM_LOOKUP_FIELD': ITEM_LOOKUP_FIELD,
-	'SQLALCHEMY_TRACK_MODIFICATIONS': True
+	'SQLALCHEMY_TRACK_MODIFICATIONS': True,
+	'EMBEDDING': EMBEDDING
 }
 
 
@@ -49,8 +53,6 @@ def pre_request_archives_post_callback(request, lookup=None):
 def pre_response_archives_post_callback(request, lookup=None):
 	upload_with_tag(request,'response')
 
-import uuid
-import werkzeug.datastructures
 def upload_with_tag(request,tag):
 	"""
 		Uploads File file to AWS s3 with tag (either request or response)

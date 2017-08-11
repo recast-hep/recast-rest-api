@@ -25,6 +25,7 @@ config.ID_FIELD = ID_FIELD
 config.ITEM_LOOKUP_FIELD = ID_FIELD
 XML = True
 JSON = True
+EMBEDDING = True
 
 from eve.auth import BasicAuth
 from sqlalchemy.orm.exc import NoResultFound
@@ -203,6 +204,9 @@ DOMAIN['basic_responses'].update({
     'url': 'basic_responses',
 })
 
+
+# import IPython
+# IPython.embed()
 
 DOMAIN['point_coordinates'].update({
     'item_lookup_field': 'id',
