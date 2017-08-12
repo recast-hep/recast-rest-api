@@ -4,8 +4,8 @@ setup(
     name = 'recast-rest-api',
     description = 'API for the RECAST project',
     url = 'https://github.com/cbora/recast-rest-api',
-    author = 'Christian Bora',
-    author_email = 'borachristian@gmail.com',
+    author = 'Lukas Heinrich, Christian Bora',
+    author_email = 'lukas.heinrich@cern.ch, borachristian@gmail.com',
     packages = find_packages(),
     include_package_data = True,
     install_requires = [
