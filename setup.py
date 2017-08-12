@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = 'recast-rest-api',
-    version = '0.0.1',
+    version = '0.1.0',
     description = 'API for the RECAST project',
     url = 'https://github.com/cbora/recast-rest-api',
     author = 'Lukas Heinrich, Christian Bora',
@@ -31,7 +31,7 @@ setup(
             ]
         },
     dependency_links = [
-        'https://github.com/recast-hep/recast-database/tarball/master#egg=recast-database-0.0.1',
+        'https://github.com/recast-hep/recast-database/tarball/master#egg=recast-database-0.1.0',
         ]
     )
     
