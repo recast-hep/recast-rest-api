@@ -2,6 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = 'recast-rest-api',
+    version = '0.0.1',
     description = 'API for the RECAST project',
     url = 'https://github.com/cbora/recast-rest-api',
     author = 'Lukas Heinrich, Christian Bora',
